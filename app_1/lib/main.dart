@@ -87,6 +87,24 @@ class _LoginScreenState extends State<LoginScreen> {
           SizedBox(
             height: 26.0,
           ),
+          TextField(
+            obscureText: true,
+            decoration: InputDecoration(
+              hintText: "User Password",
+              prefixIcon: Icon(
+                // "Icons.security" can be replaced with "lock"
+                Icons.security,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Text(
+            "Forgot/Reset your Password?",
+            style: TextStyle(color: Colors.blue),
+          )
         ],
       ),
     );

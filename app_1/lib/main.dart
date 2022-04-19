@@ -22,6 +22,9 @@ class MyApp extends StatelessWidget {
   Step 1: this will be the main layout of the app (only the UI)
   Step 2: Login to firebase console
   Step 3: Create a new firebase project
+  Step 4: Add the Firebase Dependencies
+  Step 5: init the Firebase app
+  Step 6: Create the login function
  */
 
 class HomePage extends StatefulWidget {
@@ -32,13 +35,37 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // Initialialize Firebase App
+  Future<FirebaseApp> _initializeFirebase() async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
+    return firebaseApp;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LoginScreen(),
+      body: FutureBuilder(
+        future: _initializeFirebase(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return const LoginScreen();
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
     );
   }
 }
+
+class Firebase {
+  static initializeApp() {}
+}
+
+mixin FirebaseApp {
+}
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -48,6 +75,48 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  var email;
+
+
+  //Login function
+  static Future<User?> loginUsingEmailPassword(
+    {required String email, 
+    required String password,
+    required BuildContext context}) async {}
+  var auth = FirebaseAuth.instance;
+  User? user;
+  try {
+    var password;
+    UserCredential userCredential = await auth.signInWithEmailAndPassword(
+      email: email, password: password);
+    user = userCredential.user;
+  } on FirebaseAuthException catch (e){
+   assert(e != null);
+    if(e.code == "user-not-found"){
+      // ignore: avoid_print
+      print("No User found for that email");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  } 
+
+}
+
+class FirebaseAuth {
+  static var instance;
+}
+
+class UserCredential {
+  User? user;
+}
+
+class User {
+}
+
   @override
   Widget build(BuildContext context) {
     return Padding(

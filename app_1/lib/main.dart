@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
 /*
   TODO list:
   Step 1: this will be the main layout of the app (only the UI)
-
+  Step 2: Login to firebase console
+  Step 3: Create a new firebase project
  */
 
 class HomePage extends StatefulWidget {
@@ -117,7 +118,13 @@ class _LoginScreenState extends State<LoginScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(36.0)),
               onPressed: () {},
-              child: Text("Login"),
+              child: Text(
+                "Login",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
             ),
           ),
         ],

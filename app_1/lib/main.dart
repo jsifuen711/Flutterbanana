@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,17 +9,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: HomePage(),
     );
   }
 }
 
 /*
-  TODO list:
+  Todo list:
   Step 1: this will be the main layout of the app (only the UI)
   Step 2: Login to firebase console
   Step 3: Create a new firebase project
+  Step 4: Add the Firebase Dependencies for Flutter
+  Step 5: init 
  */
 
 class HomePage extends StatefulWidget {
@@ -34,7 +34,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: LoginScreen(),
     );
   }
@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(36.0)),
               onPressed: () {},
-              child: Text(
+              child: const Text(
                 "Login",
                 style: TextStyle(
                   color: Colors.white,

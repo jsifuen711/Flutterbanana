@@ -1,3 +1,4 @@
+import 'package:app_1/home/main.food.page.dart';
 import 'package:app_1/profile.screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
   }
@@ -175,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 print(user);
                 if (user != null) {
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ProfileScreen()));
+                      MaterialPageRoute(builder: (context) => MainFoodPage()));
                   // this will take you to new screen
                 }
               },

@@ -1,3 +1,6 @@
+import 'package:app_1/profile.screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,7 +24,10 @@ class MyApp extends StatelessWidget {
   Step 2: Login to firebase console
   Step 3: Create a new firebase project
   Step 4: Add the Firebase Dependencies for Flutter
-  Step 5: init 
+  Step 5: init the Firebase app
+  Step 6: create the login function
+  Step 7: create a new user inside our base and test the app
+  Step 8: input user data and test the login page for the app
  */
 
 class HomePage extends StatefulWidget {
@@ -32,10 +38,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //Initialiaze Firebase App
+  Future<FirebaseApp> _initializeFirebase() async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
+    return firebaseApp;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: LoginScreen(),
+    return Scaffold(
+      body: FutureBuilder(
+        future: _initializeFirebase(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return LoginScreen();
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
     );
   }
 }
@@ -48,8 +70,33 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  //
+
+  //Login function
+  static Future<User?> loginUsingEmailPassword(
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      user = userCredential.user;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        print("No User found for that email");
+      }
+    }
+
+    return user;
+  }
+
   @override
   Widget build(BuildContext context) {
+    //create the textfield controller
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -75,9 +122,10 @@ class _LoginScreenState extends State<LoginScreen> {
           const SizedBox(
             height: 44.0,
           ),
-          const TextField(
+          TextField(
+            controller: _emailController,
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "User Email",
               prefixIcon: Icon(
                 Icons.mail,
@@ -88,12 +136,13 @@ class _LoginScreenState extends State<LoginScreen> {
           const SizedBox(
             height: 26.0,
           ),
-          const TextField(
+          TextField(
+            controller: _passwordController,
             obscureText: true,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "User Password",
               prefixIcon: Icon(
-                // "Icons.security" can be replaced with "lock"
+                // to change icon replace "Icons.security" with "Icons.lock"
                 Icons.security,
                 color: Colors.black,
               ),
@@ -112,12 +161,24 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             width: double.infinity,
             child: RawMaterialButton(
-              fillColor: Color(0xFF0069FE),
+              fillColor: const Color(0xFF0069FE),
               elevation: 0.0,
-              padding: EdgeInsets.symmetric(vertical: 20.0),
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(36.0)),
-              onPressed: () {},
+              onPressed: () async {
+                // testing the app
+                User? user = await loginUsingEmailPassword(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                    context: context);
+                print(user);
+                if (user != null) {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => ProfileScreen()));
+                  // this will take you to new screen
+                }
+              },
               child: const Text(
                 "Login",
                 style: TextStyle(

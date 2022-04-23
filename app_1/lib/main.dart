@@ -1,4 +1,4 @@
-import 'package:app_1/profile.screen.dart';
+import 'package:app_1/home/main.food.page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
   }
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage> {
         future: _initializeFirebase(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return LoginScreen();
+            return const LoginScreen();
           }
           return const Center(
             child: CircularProgressIndicator(),
@@ -175,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 print(user);
                 if (user != null) {
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ProfileScreen()));
+                      MaterialPageRoute(builder: (context) => const MainFoodPage()));
                   // this will take you to new screen
                 }
               },

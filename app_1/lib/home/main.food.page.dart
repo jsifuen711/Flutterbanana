@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
@@ -18,13 +17,13 @@ class _MainFoodPageState extends State<MainFoodPage> {
         children: [
           Container(
             child: Container(
-              margin: EdgeInsets.only(top: 55, bottom: 15),
-              padding: EdgeInsets.only(left: 20, right: 20),
+              margin: const EdgeInsets.only(top: 55, bottom: 15),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
-                    children: [
+                    children: const [
                       Text("Country"),
                       Text("City"),
                     ],
@@ -33,7 +32,7 @@ class _MainFoodPageState extends State<MainFoodPage> {
                     child: Container(
                       width: 45,
                       height: 45,
-                      child: Icon(
+                      child: const Icon(
                         Icons.search,
                         color: Colors.white,
                       ),

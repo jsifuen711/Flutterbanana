@@ -1,3 +1,6 @@
+import 'package:app_1/home/food.page.body.dart';
+import 'package:app_1/widgets/big.text.dart';
+import 'package:app_1/widgets/small.text.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
@@ -23,9 +26,20 @@ class _MainFoodPageState extends State<MainFoodPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
-                    children: const [
-                      Text("Country"),
-                      Text("City"),
+                    children: [
+                      BigText(
+                        text: "Kyrgystan",
+                        color: AppColors.mainColor,
+                      ),
+                      Row(
+                        children: [
+                          SmallText(
+                            text: "Bishkek",
+                            color: Colors.black54,
+                          ),
+                          const Icon(Icons.arrow_drop_down_rounded)
+                        ],
+                      ),
                     ],
                   ),
                   Center(
@@ -46,7 +60,8 @@ class _MainFoodPageState extends State<MainFoodPage> {
                 ],
               ),
             ),
-          )
+          ),
+          const FoodPageBody(),
         ],
       ),
     );

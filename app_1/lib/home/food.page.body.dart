@@ -1,6 +1,7 @@
 import 'package:app_1/utils/colors.dart';
 import 'package:app_1/widgets/icon.and.text.widget.dart';
 import 'package:app_1/widgets/small.text.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/big.text.dart';
@@ -32,16 +33,34 @@ class _FoodPageBodyState extends State<FoodPageBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      //remove bottom line of code that is commentd out (//) before deployment along with this comment
-      //color: Colors.redAccent,
-      height: 320,
-      child: PageView.builder(
-          controller: pageController,
-          itemCount: 5,
-          itemBuilder: (context, position) {
-            return _buildPageItem(position);
-          }),
+    return Column(
+      children: [
+        Container(
+          //remove bottom line of code that is commentd out (//) before deployment along with this comment
+          //color: Colors.redAccent,
+          height: 320,
+          child: PageView.builder(
+            controller: pageController,
+            itemCount: 5,
+            itemBuilder: (context, position) {
+              return _buildPageItem(position);
+            },
+          ),
+        ),
+        //dots indicator below this line
+        DotsIndicator(
+          dotsCount: 5,
+          position: _currPageValue,
+          decorator: DotsDecorator(
+            // color changed to pur main app color
+            activeColor: AppColors.mainColor,
+            size: const Size.square(9.0),
+            activeSize: const Size(18.0, 9.0),
+            activeShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0)),
+          ),
+        ),
+      ],
     );
   }
 
@@ -53,7 +72,6 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, currTrans, 0);
 
-      ///
       ///
     } else if (index == _currPageValue.floor() + 1) {
       var currScale =
@@ -108,10 +126,25 @@ class _FoodPageBodyState extends State<FoodPageBody> {
               height: 130,
               margin: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.white,
-                //color: Colors.yellowAccent,
-              ),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
+                  //color: Colors.yellowAccent,
+                  //code below is our shadow for slider card with details
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0xFFe8e8e8),
+                      blurRadius: 5.0,
+                      offset: Offset(0, 5),
+                    ),
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(-5, 0),
+                    ),
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(5, 0),
+                    )
+                  ]),
               child: Container(
                 padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: Column(
@@ -141,7 +174,11 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                     const SizedBox(
                       height: 20,
                     ),
+
+                    /// this row includes the details below slider card
+                    /// details included: Normal, Location, timer
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
                         IconAndTextWidget(
                             icon: Icons.circle,
